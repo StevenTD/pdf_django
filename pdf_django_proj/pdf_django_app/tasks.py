@@ -1,12 +1,12 @@
 import io
 import time
 
+from django.utils.timezone import localtime, now
 from weasyprint import CSS, HTML
 from django.core.files import File
 from .models import PageRequest
 
 def pdf(page):
-    import time
     time.sleep(1)  # post_save fires after the save but before the transaction is committed
 
     if page.status != page.Status.PENDING:
@@ -24,15 +24,23 @@ def pdf(page):
         return
 
     try:
-        # Define CSS with page numbers
-        page_number_css = """
-        @page {
-            @bottom-center {
+        # Create a timestamp using Django timezone in AM/PM format
+        timestamp = localtime(now()).strftime('%Y-%m-%d %I:%M:%S %p')
+
+        # Define CSS with page numbers and timestamp
+        page_number_css = f"""
+        @page {{
+            @bottom-left {{
+                content: "{timestamp}";
+                font-size: 12px;
+                color: gray;
+            }}
+            @bottom-center {{
                 content: "Page " counter(page) " of " counter(pages);
                 font-size: 12px;
                 color: gray;
-            }
-        }
+            }}
+        }}
         """
 
         # Generate PDF with custom CSS
