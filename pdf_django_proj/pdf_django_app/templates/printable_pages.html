@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle; /* Ensures text is vertically centered */
+            max-width: 200px; /* Optional: Set max-width to control how much text fits */
+            white-space: nowrap; /* Prevent text from wrapping */
+            overflow: hidden; /* Hide overflow text */
+            text-overflow: ellipsis; /* Add "..." when text overflows */
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        td {
+            color: #333;
+        }
+        .center {
+            text-align: center;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body {
+                background-color: #fff;
+                margin: 0;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+                text-align: center;
+                color: #333;
+            }
+
+            table {
+                width: 100%; /* Make table fill the width of the page */
+                box-shadow: none; /* Remove the box shadow for print */
+                border: 1px solid #000; /* Ensure the table border is clear */
+            }
+
+            th, td {
+                border: 1px solid #000; /* Ensure borders are solid and visible */
+                padding: 8px; /* Reduce padding for printing */
+                text-align: left;
+                vertical-align: middle; /* Ensures text is vertically centered */
+                white-space: normal; /* Allow text to wrap for print */
+                overflow: visible; /* Allow overflow for printing */
+                text-overflow: clip; /* Disable ellipsis for print */
+            }
+
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            tr:hover {
+                background-color: #ddd;
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            /* Remove all other page elements for a clean print */
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Item List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Status</th>
+                <th>Url</th>
+                <th>Err</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="center">{{ forloop.counter }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.url }}</td>
+                <td class="center">{{ item.error_msg }}</td>
+                <td class="center">{{ item.pdf_file }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="center">No items found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
